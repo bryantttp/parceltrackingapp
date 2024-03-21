@@ -1,5 +1,6 @@
 package javaEnterpriseSoloProject;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -95,7 +96,7 @@ class CustomerRepositoryTest {
 	}
 	
 	@Test
-	@DisplayName("Test for update method when cusomter does not exist in database")
+	@DisplayName("Test for update method when customer does not exist in database")
 	void test4() {
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
 		when(mockEm.find(Customer.class, customer.getId())).thenReturn(null);
@@ -112,5 +113,46 @@ class CustomerRepositoryTest {
 		verify(mockCustomer, never()).updateDetails(customer);
 		verify(mockEt, never()).commit();
 	}
+	
+	@Test
+	@DisplayName("Test for deleteById method when customer exists in database")
+	void test5() {
+		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
+		when(mockEm.find(Customer.class, 1L)).thenReturn(customer);
+		when(mockEm.getTransaction()).thenReturn(mockEt);
+		
+		customerRepository.deleteById(1L);
+				
+		InOrder order = inOrder(mockEmf, mockEm, mockEt);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).find(Customer.class, 1L);
+		order.verify(mockEm).getTransaction();
+		order.verify(mockEt).begin();
+		order.verify(mockEm).remove(customer);
+		order.verify(mockEt).commit();
+		order.verify(mockEm).close();
+		order.verifyNoMoreInteractions();
+	}
+	
+	@Test
+	@DisplayName("Test for deleteById method when customer does not exist in database")
+	void test6() {
+		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
+		when(mockEm.find(Customer.class, 5L)).thenReturn(null);
+		
+		customerRepository.deleteById(5L);
+				
+		InOrder order = inOrder(mockEmf, mockEm);
+		order.verify(mockEmf).createEntityManager();
+		order.verify(mockEm).find(Customer.class, 5L);
+		order.verify(mockEm).close();
+		order.verifyNoMoreInteractions();
+		verify(mockEm, never()).getTransaction();
+		verify(mockEt, never()).begin();
+		verify(mockEm, never()).remove(any(Customer.class));
+		verify(mockEt, never()).commit();
+	}
+	
+
 	
 }

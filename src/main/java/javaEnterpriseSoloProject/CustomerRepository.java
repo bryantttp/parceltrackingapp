@@ -48,5 +48,17 @@ public class CustomerRepository {
 		}
 		em.close();
 	}
+	
+	public void deleteById(long id) {
+		EntityManager em = emf.createEntityManager();
+		Customer tempCustomer = em.find(Customer.class,id);
+		if (tempCustomer != null) {
+			EntityTransaction et = em.getTransaction();
+			et.begin();
+			em.remove(tempCustomer);
+			et.commit();
+		}
+		em.close();
+	}
 
 }
