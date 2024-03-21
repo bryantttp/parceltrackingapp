@@ -96,7 +96,11 @@ public class Customer{
 		this.parcels.add(parcel);
 	}
 	
-	public void getParcels() {
+	public List<Parcel> getParcels() {
+		return parcels;
+	}
+	
+	public void getParcelDetails() {
 		for (Parcel parcel : parcels) {
 			System.out.println(parcel.getLocation());
 			System.out.println(parcel.getStatus());

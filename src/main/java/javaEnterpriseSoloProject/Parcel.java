@@ -35,6 +35,14 @@ public class Parcel {
 		this.status = status;
 	}
 	
+	public Parcel() {
+		return;
+	}
+	
+	public void setParcelId(long parcelId) {
+		this.parcelId = parcelId;
+	}
+	
 	public long getParcelId() {
 		return parcelId;
 	}

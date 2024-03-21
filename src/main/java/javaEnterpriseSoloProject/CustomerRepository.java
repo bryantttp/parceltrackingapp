@@ -33,7 +33,7 @@ public class CustomerRepository {
 		EntityManager em = emf.createEntityManager();
 		TypedQuery<Customer> query = em.createNamedQuery("Customer.findByUsername", Customer.class);
 		List<Customer> matchedCustomers = query.setParameter("customerUsername", username).getResultList();
-		matchedCustomers.forEach(m -> m.getParcels());
+		matchedCustomers.forEach(m -> m.getParcelDetails());
 		em.close();
 	}
 
