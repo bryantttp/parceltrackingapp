@@ -29,5 +29,4 @@ class CustomerTest {
 			assertEquals(p,expectedParcel);
 		}
 	}
-
 }

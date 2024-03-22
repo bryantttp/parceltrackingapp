@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
 public class LocationRepository {
+	
 	private EntityManagerFactory emf;
 
 	public LocationRepository(EntityManagerFactory emf) {

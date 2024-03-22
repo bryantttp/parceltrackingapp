@@ -13,6 +13,7 @@ public class Status {
 	@GeneratedValue
 	@Column(name = "Status ID")
 	private int statusId;
+	
 	@Column(name = "Status")
 	private String statusName;
 	

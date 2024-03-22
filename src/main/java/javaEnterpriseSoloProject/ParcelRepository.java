@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
 public class ParcelRepository {
+	
 	private EntityManagerFactory emf;
 
 	public ParcelRepository(EntityManagerFactory emf) {
@@ -49,5 +50,4 @@ public class ParcelRepository {
 		}
 		em.close();
 	}
-
 }

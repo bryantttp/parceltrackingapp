@@ -72,7 +72,6 @@ class CustomerRepositoryTest {
 		order.verify(mockQuery).setParameter("customerUsername",customer.getUsername());
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
-		
 	}
 	
 	@Test
@@ -157,7 +156,4 @@ class CustomerRepositoryTest {
 		verify(mockEm, never()).remove(any(Customer.class));
 		verify(mockEt, never()).commit();
 	}
-	
-
-	
 }

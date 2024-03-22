@@ -136,5 +136,4 @@ class StatusRepositoryTest {
 		verify(mockEm, never()).remove(any(Status.class));
 		verify(mockEt, never()).commit();
 	}
-
 }

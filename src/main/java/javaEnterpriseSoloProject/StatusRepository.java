@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
 public class StatusRepository {
+	
 	private EntityManagerFactory emf;
 
 	public StatusRepository(EntityManagerFactory emf) {

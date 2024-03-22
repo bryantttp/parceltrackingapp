@@ -13,8 +13,10 @@ public class Location {
 	@GeneratedValue
 	@Column(name = "Location ID")
 	private int locationId;
+	
 	@Column(name = "Country")
 	private String country;
+	
 	@Column(name = "City")
 	private String city;
 	
@@ -26,6 +28,7 @@ public class Location {
 	public int getLocationId() {
 		return locationId;
 	}
+	
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
@@ -33,12 +36,15 @@ public class Location {
 	public String getCountry() {
 		return country;
 	}
+	
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	
 	public String getCity() {
 		return city;
 	}
+	
 	public void setCity(String city) {
 		this.city = city;
 	}

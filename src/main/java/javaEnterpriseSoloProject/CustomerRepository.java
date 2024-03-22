@@ -8,6 +8,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
 public class CustomerRepository {
+	
 	private EntityManagerFactory emf;
 
 	public CustomerRepository(EntityManagerFactory emf) {
@@ -60,5 +61,4 @@ public class CustomerRepository {
 		}
 		em.close();
 	}
-
 }
