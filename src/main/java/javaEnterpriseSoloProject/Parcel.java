@@ -17,15 +17,15 @@ public class Parcel {
 	private long parcelId;
 	
 	@ManyToOne
-	@JoinColumn(name = "FK Customer ID")
+	@JoinColumn(name = "FK Customer ID", nullable = false)
 	private Customer customer;
 	
 	@ManyToOne
-	@JoinColumn(name = "FK Location ID")
+	@JoinColumn(name = "FK Location ID", nullable = false)
 	private Location location;
 	
 	@ManyToOne
-	@JoinColumn(name = "FK Status ID")
+	@JoinColumn(name = "FK Status ID", nullable = false)
 	private Status status;
 	
 	public Parcel(Customer customer, Location location, Status status) {
