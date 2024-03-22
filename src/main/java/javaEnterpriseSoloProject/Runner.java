@@ -1,9 +1,28 @@
+/**
+ * 
+ * Runner.java
+ * - This file simulates the Java code which helps sync Customer, Parcel,
+ * Location and Status entities to the database and carry out any tasks such as
+ * retrieving information on parcels and updating the location and status of 
+ * parcels
+ * 
+ * @author Bryant Pang
+ * @version 0.0.1
+ * @since 22/03/24
+ * 
+ */
 package javaEnterpriseSoloProject;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class Runner {
+	/**
+	 * 
+	 * Main method of the Runner class to execute Java code
+	 * 
+	 * @param args
+	 */
 	public static void main (String[] args) {
 		Location SG = new Location("Singapore","Singapore");
 		Location CN = new Location("China","Shenzhen");
@@ -37,5 +56,7 @@ public class Runner {
 		parcelRepository.persist(parcel1);
 		parcelRepository.persist(parcel2);
 		parcelRepository.persist(parcel3);
+		
+//		emf.close();
 	}
 }
