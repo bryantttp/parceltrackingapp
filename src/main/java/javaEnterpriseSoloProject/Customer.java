@@ -1,3 +1,14 @@
+/**
+ * 
+ * Customer.java
+ * - This file represents the POJO of the Customer entity, where the customer ID
+ * is the primary key and shares a OneToMany relationship with Parcel entity
+ * 
+ * @author Bryant Pang
+ * @version 0.0.1
+ * @since 22/03/24
+ * 
+ */
 package javaEnterpriseSoloProject;
 
 import java.util.ArrayList;
@@ -40,6 +51,16 @@ public class Customer{
 	@Column(name = "Last Name")
 	private String lastName;
 	
+	/**
+	 * 
+	 * Custom Constructor of Customer Entity 
+	 * 
+	 * @param address Address of the Customer
+	 * @param username Username of the Customer
+	 * @param password Password of the Customer
+	 * @param firstName First Name of the Customer
+	 * @param lastName Last Name of the Customer
+	 */
 	public Customer(String address, String username, String password, String firstName, String lastName) {
 		this.setAddress(address);
 		this.setUsername(username);
@@ -48,62 +69,151 @@ public class Customer{
 		this.setLastName(lastName);
 	}
 	
-	public void setId(long customerId) {
-		this.customerId = customerId;
-	}
-	
+	/**
+	 * 
+	 * Generic getter method that returns the ID of the Customer
+	 * 
+	 * @return Long that represents the ID of the Customer
+	 */
 	public long getId() {
 		return customerId;
 	}
 	
+	/**
+	 * 
+	 * Generic setter method that set the ID of the Customer
+	 * 
+	 * @param customerId ID of the Customer
+	 */
+	public void setId(long customerId) {
+		this.customerId = customerId;
+	}
+		
+	/**
+	 * 
+	 * Generic getter method that returns the address of the Customer
+	 * 
+	 * @return String that represents the address of the Customer
+	 */
 	public String getAddress() {
 		return address;
 	}
-
+	
+	/**
+	 * 
+	 * Generic setter method that sets the address of the Customer
+	 * 
+	 * @param address Address of the Customer
+	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
+	
+	/**
+	 * 
+	 * Generic getter method that returns the username of the Customer
+	 * 
+	 * @return String that represents the username of the Customer
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * 
+	 * Generic setter method that sets the username of the Customer
+	 * 
+	 * @param username Username of the Customer
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * 
+	 * Generic getter method that returns the password of the Customer
+	 * 
+	 * @return String that represents the username of the Customer
+	 */
 	public String getPassword() {
 		return password;
 	}
-
+	
+	/**
+	 * 
+	 * Generic setter method that sets the password of the Customer
+	 * 
+	 * @param password Password of the Customer
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	/**
+	 * 
+	 * Generic getter method that returns the First Name of the Customer
+	 * 
+	 * @return String that represents the First Name of the Customer
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
-
+	
+	/**
+	 * 
+	 * Generic setter method that sets the First Name of the Customer
+	 * 
+	 * @param firstName First Name of the Customer
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
+	/**
+	 * 
+	 * Generic getter method that returns the Last Name of the Customer
+	 * 
+	 * @return String that represents the Last Name of the Customer
+	 */
 	public String getLastName() {
 		return lastName;
 	}
-
+	
+	/**
+	 * 
+	 * Generic setter method that sets the Last Name of the Customer
+	 * 
+	 * @param lastName Last Name of the Customer
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 	
+	/**
+	 * 
+	 * Generic setter method that adds the parcels that the Customer has ordered to a list of parcels
+	 * 
+	 * @param parcel Parcel that the Customer has ordered
+	 */
 	public void setParcels(Parcel parcel) {
 		this.parcels.add(parcel);
 	}
 	
+	/**
+	 * 
+	 * Generic getter method that returns the list of parcels that the Customer had ordered
+	 * 
+	 * @return List that represents the list of parcels that the Customer had ordered
+	 */
 	public List<Parcel> getParcels() {
 		return parcels;
 	}
 	
+	/**
+	 * 
+	 * This method prints the details of the parcel's current location and status
+	 * 
+	 */
 	public void getParcelDetails() {
 		for (Parcel parcel : parcels) {
 			System.out.println(parcel.getLocationDetails());
@@ -111,6 +221,12 @@ public class Customer{
 		}
 	}
 	
+	/**
+	 * 
+	 * This methods allows the Customer to update their address, username, password, first name and last name
+	 * 
+	 * @param customer Customer with the new address, username, password, first name and last name
+	 */
 	public void updateDetails(Customer customer) {
 		setAddress(customer.getAddress());
 		setUsername(customer.getUsername());
