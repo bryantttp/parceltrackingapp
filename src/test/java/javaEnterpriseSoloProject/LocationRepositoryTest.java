@@ -19,9 +19,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
 @ExtendWith(MockitoExtension.class)
-class ParcelRepositoryTest {
+class LocationRepositoryTest {
 	
-	private ParcelRepository parcelRepository;
+	private LocationRepository locationRepository;
 	@Mock
 	private EntityManagerFactory mockEmf;
 	@Mock
@@ -29,111 +29,111 @@ class ParcelRepositoryTest {
 	@Mock
 	private EntityTransaction mockEt;
 	@Mock
-	private Parcel mockParcel;
+	private Location mockLocation;
 	
 	@BeforeEach
 	void setUp() {
-		parcelRepository = new ParcelRepository(mockEmf);
+		locationRepository = new LocationRepository(mockEmf);
 		when(mockEmf.createEntityManager()).thenReturn(mockEm);
 	}
 	
 	@Test
-	@DisplayName("Test to check that persist method saves parcel to database")
+	@DisplayName("Test to check that persist method saves location to database")
 	void test1() {
 		when(mockEm.getTransaction()).thenReturn(mockEt);
-		parcelRepository.persist(mockParcel);
+		locationRepository.persist(mockLocation);
 		
 		InOrder order = inOrder(mockEmf,mockEm,mockEt);
 		order.verify(mockEmf).createEntityManager();
 		order.verify(mockEm).getTransaction();
 		order.verify(mockEt).begin();
-		order.verify(mockEm).persist(mockParcel);
+		order.verify(mockEm).persist(mockLocation);
 		order.verify(mockEt).commit();
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 	}
 		
 	@Test
-	@DisplayName("Test for update method when parcel exists in database")
+	@DisplayName("Test for update method when location exists in database")
 	void test2() {
-		long id = 1L;
-		Parcel parcel = new Parcel();
-		parcel.setParcelId(id);
-		when(mockEm.find(Parcel.class, id)).thenReturn(mockParcel);
+		int id = 1;
+		Location location = new Location("Singapore", "Singapore");
+		location.setLocationId(id);
+		when(mockEm.find(Location.class, id)).thenReturn(mockLocation);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
-		parcelRepository.update(parcel);
+		locationRepository.update(location);
 				
-		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockParcel);
+		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockLocation);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Parcel.class, id);
+		order.verify(mockEm).find(Location.class, id);
 		order.verify(mockEm).getTransaction();
 		order.verify(mockEt).begin();
-		order.verify(mockParcel).updateDetails(parcel);
+		order.verify(mockLocation).updateDetails(location);
 		order.verify(mockEt).commit();
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 	}
 	
 	@Test
-	@DisplayName("Test for update method when parcel does not exist in database")
+	@DisplayName("Test for update method when location does not exist in database")
 	void test3() {
-		long id = 50L;
-		Parcel parcel = new Parcel();
-		parcel.setParcelId(id);
+		int id = 15;
+		Location location = new Location("Singapore", "Singapore");
+		location.setLocationId(id);
 		
-		parcelRepository.update(parcel);
+		locationRepository.update(location);
 				
 		InOrder order = inOrder(mockEmf, mockEm);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Parcel.class, id);
+		order.verify(mockEm).find(Location.class, id);
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 		verify(mockEm, never()).getTransaction();
 		verify(mockEt, never()).begin();
-		verify(mockParcel, never()).updateDetails(parcel);
+		verify(mockLocation, never()).updateDetails(location);
 		verify(mockEt, never()).commit();
 	}
 	
 	@Test
-	@DisplayName("Test for deleteById method when parcel exists in database")
+	@DisplayName("Test for deleteById method when location exists in database")
 	void test4() {
-		long id = 10L;
-		Parcel parcel = new Parcel();
-		parcel.setParcelId(id);
-		when(mockEm.find(Parcel.class, id)).thenReturn(parcel);
+		int id = 6;
+		Location location = new Location("Singapore", "Singapore");
+		location.setLocationId(id);
+		when(mockEm.find(Location.class, id)).thenReturn(location);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
-		parcelRepository.deleteById(id);
+		locationRepository.deleteById(id);
 				
 		InOrder order = inOrder(mockEmf, mockEm, mockEt);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Parcel.class, id);
+		order.verify(mockEm).find(Location.class, id);
 		order.verify(mockEm).getTransaction();
 		order.verify(mockEt).begin();
-		order.verify(mockEm).remove(parcel);
+		order.verify(mockEm).remove(location);
 		order.verify(mockEt).commit();
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 	}
 	
 	@Test
-	@DisplayName("Test for deleteById method when parcel does not exist in database")
+	@DisplayName("Test for deleteById method when location does not exist in database")
 	void test5() {
-		long id = 75L;
-		Parcel parcel = new Parcel();
-		parcel.setParcelId(id);
+		int id = 45;
+		Location location = new Location("Singapore", "Singapore");
+		location.setLocationId(id);
 		
-		parcelRepository.deleteById(id);
+		locationRepository.deleteById(id);
 				
 		InOrder order = inOrder(mockEmf, mockEm);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Parcel.class, id);
+		order.verify(mockEm).find(Location.class, id);
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 		verify(mockEm, never()).getTransaction();
 		verify(mockEt, never()).begin();
-		verify(mockEm, never()).remove(any(Parcel.class));
+		verify(mockEm, never()).remove(any(Location.class));
 		verify(mockEt, never()).commit();
 	}
 }

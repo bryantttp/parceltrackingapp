@@ -26,6 +26,9 @@ public class Location {
 	public int getLocationId() {
 		return locationId;
 	}
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
+	}
 	
 	public String getCountry() {
 		return country;
@@ -38,5 +41,10 @@ public class Location {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	
+	public void updateDetails(Location location) {
+		setCountry(location.getCountry());
+		setCity(location.getCity());
 	}
 }
