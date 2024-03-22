@@ -26,10 +26,12 @@ public class Runner {
 	public static void main (String[] args) {
 		Location SG = new Location("Singapore","Singapore");
 		Location CN = new Location("China","Shenzhen");
+		
 		Status shipping = new Status("Shipping From Origin");
 		Status reachedLocal = new Status("Reaching Local Facility");
 		Status outForDelivery = new Status("Out for delivery");
-		
+		Status error = new Status("Error");
+				
 		Customer customer1 = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
 		Customer customer2 = new Customer("Ion Orchard, 2 Orchard Turn,","chanel.ion","chanelion123","Chanel","Store");
 		
@@ -42,13 +44,15 @@ public class Runner {
 		ParcelRepository parcelRepository = new ParcelRepository(emf);
 		LocationRepository locationRepository = new LocationRepository(emf);
 		StatusRepository statusRepository = new StatusRepository(emf);
-
+		
+		// Create all entities
 		locationRepository.persist(SG);
 		locationRepository.persist(CN);
 		
 		statusRepository.persist(shipping);
 		statusRepository.persist(reachedLocal);
 		statusRepository.persist(outForDelivery);
+		statusRepository.persist(error);
 		
 		customerRepository.persist(customer1);
 		customerRepository.persist(customer2);
@@ -56,6 +60,17 @@ public class Runner {
 		parcelRepository.persist(parcel1);
 		parcelRepository.persist(parcel2);
 		parcelRepository.persist(parcel3);
+		
+		// Update Parcel 1 details
+		parcel1.setLocation(SG);
+		parcel1.setStatus(reachedLocal);
+		parcelRepository.update(parcel1);
+		
+		// Read Parcel 2 details
+		customerRepository.findParcelsByUsername(customer1.getUsername());
+		
+		// Delete Status entity error
+		statusRepository.deleteById(error.getStatusId());
 		
 //		emf.close();
 	}

@@ -71,6 +71,15 @@ public class Customer{
 	
 	/**
 	 * 
+	 * Default constructor of the Customer entity
+	 * 
+	 */
+	public Customer() {
+		
+	}
+	
+	/**
+	 * 
 	 * Generic getter method that returns the ID of the Customer
 	 * 
 	 * @return Long that represents the ID of the Customer

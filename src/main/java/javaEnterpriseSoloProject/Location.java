@@ -45,6 +45,15 @@ public class Location {
 	
 	/**
 	 * 
+	 * Default constructor of the Location entity
+	 * 
+	 */
+	public Location() {
+		
+	}
+	
+	/**
+	 * 
 	 * Generic getter method that returns the ID of the Location Object
 	 * 
 	 * @return

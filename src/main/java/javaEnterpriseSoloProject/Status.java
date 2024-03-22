@@ -40,6 +40,15 @@ public class Status {
 	
 	/**
 	 * 
+	 * Default constructor of the Status entity
+	 * 
+	 */
+	public Status() {
+		
+	}
+	
+	/**
+	 * 
 	 * Generic getter method that returns the ID of the Status
 	 * 
 	 * @return int that represents the ID of the Status
