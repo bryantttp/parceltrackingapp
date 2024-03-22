@@ -2,7 +2,7 @@
  * 
  * Customer.java
  * - This file represents the POJO of the Customer entity, where the customer ID
- * is the primary key and shares a OneToMany relationship with Parcel entity
+ * is the primary key and shares a Bidirectional OneToMany relationship with Parcel entity
  * 
  * @author Bryant Pang
  * @version 0.0.1
@@ -53,7 +53,7 @@ public class Customer{
 	
 	/**
 	 * 
-	 * Custom Constructor of Customer Entity 
+	 * Custom constructor of Customer entity 
 	 * 
 	 * @param address Address of the Customer
 	 * @param username Username of the Customer
