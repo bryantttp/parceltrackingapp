@@ -20,6 +20,10 @@ public class Status {
 		this.statusName = statusName;
 	}
 	
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
+	}
+	
 	public int getStatusId() {
 		return statusId;
 	}
@@ -27,8 +31,12 @@ public class Status {
 	public String getStatusName() {
 		return statusName;
 	}
-	public void setStatus(String statusName) {
+	
+	public void setStatusName(String statusName) {
 		this.statusName = statusName;
 	}
 	
+	public void updateDetails(Status status) {
+		setStatusName(status.getStatusName());
+	}
 }
