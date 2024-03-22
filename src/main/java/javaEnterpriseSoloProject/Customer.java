@@ -48,6 +48,10 @@ public class Customer{
 		this.setLastName(lastName);
 	}
 	
+	public void setId(long customerId) {
+		this.customerId = customerId;
+	}
+	
 	public long getId() {
 		return customerId;
 	}
@@ -102,8 +106,8 @@ public class Customer{
 	
 	public void getParcelDetails() {
 		for (Parcel parcel : parcels) {
-			System.out.println(parcel.getLocation());
-			System.out.println(parcel.getStatus());
+			System.out.println(parcel.getLocationDetails());
+			System.out.println(parcel.getStatusDetails());
 		}
 	}
 	

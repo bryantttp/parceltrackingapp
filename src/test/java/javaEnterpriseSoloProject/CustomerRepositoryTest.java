@@ -42,7 +42,7 @@ class CustomerRepositoryTest {
 	}
 	
 	@Test
-	@DisplayName("Test to check that persist method saves to database")
+	@DisplayName("Test to check that persist method saves customer to database")
 	void test1() {
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
 		when(mockEm.getTransaction()).thenReturn(mockEt);
@@ -78,15 +78,17 @@ class CustomerRepositoryTest {
 	@Test
 	@DisplayName("Test for update method when customer exists in database")
 	void test3() {
+		long id = 3L;
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
-		when(mockEm.find(Customer.class, customer.getId())).thenReturn(mockCustomer);
+		customer.setId(id);
+		when(mockEm.find(Customer.class, id)).thenReturn(mockCustomer);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
 		customerRepository.update(customer);
 				
 		InOrder order = inOrder(mockEmf, mockEm, mockEt, mockCustomer);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Customer.class, customer.getId());
+		order.verify(mockEm).find(Customer.class, id);
 		order.verify(mockEm).getTransaction();
 		order.verify(mockEt).begin();
 		order.verify(mockCustomer).updateDetails(customer);
@@ -98,14 +100,14 @@ class CustomerRepositoryTest {
 	@Test
 	@DisplayName("Test for update method when customer does not exist in database")
 	void test4() {
+		long id = 70L;
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
-		when(mockEm.find(Customer.class, customer.getId())).thenReturn(null);
-		
+		customer.setId(id);
 		customerRepository.update(customer);
 				
 		InOrder order = inOrder(mockEmf, mockEm);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Customer.class, customer.getId());
+		order.verify(mockEm).find(Customer.class, id);
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 		verify(mockEm, never()).getTransaction();
@@ -117,15 +119,17 @@ class CustomerRepositoryTest {
 	@Test
 	@DisplayName("Test for deleteById method when customer exists in database")
 	void test5() {
+		long id = 4L;
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
-		when(mockEm.find(Customer.class, 1L)).thenReturn(customer);
+		customer.setId(id);
+		when(mockEm.find(Customer.class, id)).thenReturn(customer);
 		when(mockEm.getTransaction()).thenReturn(mockEt);
 		
-		customerRepository.deleteById(1L);
+		customerRepository.deleteById(id);
 				
 		InOrder order = inOrder(mockEmf, mockEm, mockEt);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Customer.class, 1L);
+		order.verify(mockEm).find(Customer.class, id);
 		order.verify(mockEm).getTransaction();
 		order.verify(mockEt).begin();
 		order.verify(mockEm).remove(customer);
@@ -137,14 +141,15 @@ class CustomerRepositoryTest {
 	@Test
 	@DisplayName("Test for deleteById method when customer does not exist in database")
 	void test6() {
+		long id = 88L;
 		Customer customer = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
-		when(mockEm.find(Customer.class, 5L)).thenReturn(null);
+		customer.setId(id);
 		
-		customerRepository.deleteById(5L);
+		customerRepository.deleteById(id);
 				
 		InOrder order = inOrder(mockEmf, mockEm);
 		order.verify(mockEmf).createEntityManager();
-		order.verify(mockEm).find(Customer.class, 5L);
+		order.verify(mockEm).find(Customer.class, id);
 		order.verify(mockEm).close();
 		order.verifyNoMoreInteractions();
 		verify(mockEm, never()).getTransaction();

@@ -20,6 +20,7 @@ public class Runner {
 		Customer customer1 = new Customer("BLK 64 YUNG KUANG ROAD, #01-113","john.doe","johndoe123","John","Doe");
 		Customer customer2 = new Customer("Ion Orchard, 2 Orchard Turn,","chanel.ion","chanelion123","Chanel","Store");
 		
+		
 		Parcel parcel1 = new Parcel(customer1, CN, shipping);
 		Parcel parcel2 = new Parcel(customer2, SG, reachedLocal);
 		Parcel parcel3 = new Parcel(customer1, SG, outForDelivery);
@@ -27,6 +28,7 @@ public class Runner {
 		
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("MySQL");
+		CustomerRepository customerRepository = new CustomerRepository(emf);
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		
@@ -43,8 +45,8 @@ public class Runner {
 		em.persist(parcel2);
 		em.persist(parcel3);
 		
-		em.persist(customer1);
-		em.persist(customer2);
+		customerRepository.persist(customer1);
+		customerRepository.persist(customer2);
 		
 		et.commit();
 		

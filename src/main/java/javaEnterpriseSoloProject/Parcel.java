@@ -46,21 +46,34 @@ public class Parcel {
 	public long getParcelId() {
 		return parcelId;
 	}
-		
-	public String getLocation() {
-		return "Parcel " + Long.toString(parcelId) + " is currently in " + location.getCity() + ", " + location.getCountry();
+	
+	public Location getLocation() {
+		return this.location;
 	}
-
+	
 	public void setLocation(Location location) {
 		this.location = location;
 	}
 	
-	public String getStatus() {
-		return "Parcel " + Long.toString(parcelId) + " is currently " + status.getStatusName();
+	public Status getStatus() {
+		return this.status;
 	}
-
+	
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public String getStatusDetails() {
+		return "Parcel " + Long.toString(parcelId) + " is currently " + status.getStatusName();
+	}
+	
+	public String getLocationDetails() {
+		return "Parcel " + Long.toString(parcelId) + " is currently in " + location.getCity() + ", " + location.getCountry();
+	}
+	
+	public void updateDetails(Parcel parcel) {
+		setLocation(parcel.getLocation());
+		setStatus(parcel.getStatus());
 	}
 	
 }
