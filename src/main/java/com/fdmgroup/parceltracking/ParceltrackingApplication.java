@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ParceltrackingApplication {
+public class ParcelTrackingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ParceltrackingApplication.class, args);
+		SpringApplication.run(ParcelTrackingApplication.class, args);
 	}
 
 }
