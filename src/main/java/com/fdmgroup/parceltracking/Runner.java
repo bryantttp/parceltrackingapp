@@ -22,6 +22,9 @@ import com.fdmgroup.parceltracking.repository.LocationRepository;
 import com.fdmgroup.parceltracking.repository.ParcelRepository;
 import com.fdmgroup.parceltracking.repository.StatusRepository;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 public class Runner {
 	/**
 	 * 
