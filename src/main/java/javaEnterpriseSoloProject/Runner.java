@@ -11,16 +11,10 @@
  * @since 22/03/24
  * 
  */
-package com.fdmgroup.parceltracking;
+package javaEnterpriseSoloProject;
 
-import com.fdmgroup.parceltracking.model.Customer;
-import com.fdmgroup.parceltracking.model.Location;
-import com.fdmgroup.parceltracking.model.Parcel;
-import com.fdmgroup.parceltracking.model.Status;
-import com.fdmgroup.parceltracking.repository.CustomerRepository;
-import com.fdmgroup.parceltracking.repository.LocationRepository;
-import com.fdmgroup.parceltracking.repository.ParcelRepository;
-import com.fdmgroup.parceltracking.repository.StatusRepository;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class Runner {
 	/**
@@ -58,7 +52,7 @@ public class Runner {
 		statusRepository.persist(shipping);
 		statusRepository.persist(reachedLocal);
 		statusRepository.persist(outForDelivery);
-//		statusRepository.persist(error);
+		statusRepository.persist(error);
 		
 		customerRepository.persist(customer1);
 		customerRepository.persist(customer2);
@@ -68,17 +62,15 @@ public class Runner {
 		parcelRepository.persist(parcel3);
 		
 		// Update Parcel 1 details
-//		parcel1.setLocation(SG);
-//		parcel1.setStatus(null);
-//		parcelRepository.update(parcel1);
+		parcel1.setLocation(SG);
+		parcel1.setStatus(reachedLocal);
+		parcelRepository.update(parcel1);
 		
 		// Read Parcel 2 details
-//		customerRepository.findParcelsByUsername(customer1.getUsername());
+		customerRepository.findParcelsByUsername(customer1.getUsername());
 		
 		// Delete Status entity error
-//		statusRepository.deleteById(reachedLocal.getStatusId());
-		
-//		customerRepository.deleteById(customer1.getId());
+		statusRepository.deleteById(error.getStatusId());
 		
 //		emf.close();
 	}
