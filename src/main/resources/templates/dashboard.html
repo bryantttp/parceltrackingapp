@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Springboot WebApp Dashboard</title>
+	</head>
+	<body>
+		<h1>Hello! Welcome to the dashboard</h1>
+		<a href="logout">Logout</a>
+		<a th:href="@{/customers/{id}(id=${customer.id})}">Profile Page</a>
+	</body>
+</html>
