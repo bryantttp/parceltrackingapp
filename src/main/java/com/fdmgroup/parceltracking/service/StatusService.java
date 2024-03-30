@@ -48,4 +48,26 @@ public class StatusService {
 			System.out.println("Status deleted from Database");
 		}
 	}
+	
+	public boolean statusInDatabase(String statusName) {
+		Optional<Status> returnedStatus = statusRepo.findByStatus(statusName);
+		if (returnedStatus.isEmpty()) {
+			System.out.println("Location does not exist in database");
+			return false;
+		}
+		else {
+			System.out.println("Location exists in database");
+			return true;
+		}
+	}
+	
+	public Status findByStatus(String statusName) {
+		Optional<Status> returnedStatus = statusRepo.findByStatus(statusName);
+		if (returnedStatus.isEmpty()) {
+			return null;
+		}
+		else {
+			return returnedStatus.get();
+		}
+	}
 }

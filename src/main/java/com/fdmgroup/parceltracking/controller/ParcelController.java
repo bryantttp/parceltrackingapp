@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,9 @@ import com.fdmgroup.parceltracking.model.Location;
 import com.fdmgroup.parceltracking.model.Parcel;
 import com.fdmgroup.parceltracking.model.Status;
 import com.fdmgroup.parceltracking.service.CustomerService;
+import com.fdmgroup.parceltracking.service.LocationService;
 import com.fdmgroup.parceltracking.service.ParcelService;
+import com.fdmgroup.parceltracking.service.StatusService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,6 +29,12 @@ public class ParcelController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private LocationService locationService;
+	
+	@Autowired
+	private StatusService statusService;
 	
 	@GetMapping("/dashboard/parcels")
 	public String parcelPage() {
@@ -58,18 +67,15 @@ public class ParcelController {
 	}
 	
 	@PostMapping("/dashboard/parcels/1")
-	public String createParcel1(HttpSession session) {
-		while (session.getAttribute("tempParcel") != null) {
-			session.removeAttribute("tempParcel");
-		}
-		Customer tempCustomer = (Customer) session.getAttribute("loggedUser");
-		Location SG = new Location("Singapore","Singapore");
-		Status shipping = new Status("Shipping From Origin");
-		Parcel tempParcel = new Parcel(tempCustomer,SG,shipping);
-		session.setAttribute("tempParcel", tempParcel);
+	public String createParcel1(@PathVariable("id") long customerId, Model model) {
+		Customer tempCustomer = customerService.findCustomerById(customerId);
+		Location tempLocation = locationService.findByLocation("Singapore", "Singapore");
+		Status tempStatus = statusService.findByStatus("Shipping from Origin");
+		Parcel tempParcel = new Parcel(tempCustomer,tempLocation,tempStatus);
 		parcelService.persist(tempParcel);
+		model.addAttribute("tempParcel",tempParcel);
 		System.out.println("Parcel created");
-		return "/dashboard/parcels/1";
+		return "parcel1";
 	}
 	
 	@PutMapping("/dashboard/parcels/1")
