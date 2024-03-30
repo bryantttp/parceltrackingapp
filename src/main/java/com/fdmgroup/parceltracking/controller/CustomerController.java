@@ -1,13 +1,12 @@
 package com.fdmgroup.parceltracking.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fdmgroup.parceltracking.model.Customer;
@@ -63,6 +62,12 @@ public class CustomerController {
 		return "profile";
 	}
 	
+	@GetMapping("customers/{id}/details")
+	public String editProfilePage(@PathVariable("id") long customerId) {
+		System.out.println("Editing Customer's profile page");
+		return "details";
+	}
+	
 	@PostMapping("/register")
 	public String processRegistration(@RequestParam("username") String username, @RequestParam("password") String password){
 		Customer customer = new Customer(null,username,password,null,null);
@@ -91,5 +96,16 @@ public class CustomerController {
 			System.out.println("Authentication failed!");
 			return "login";
 		}
+	}
+	
+	@PutMapping("/customers/{id}/details")
+	public String editCustomerProfile(@PathVariable("id") long customerId, Model model, @RequestParam("address") String address, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+		Customer tempCustomer = customerService.findCustomerById(customerId);
+		tempCustomer.setAddress(address);
+		tempCustomer.setFirstName(firstName);
+		tempCustomer.setLastName(lastName);
+		model.addAttribute("customer",tempCustomer);
+		customerService.update(tempCustomer);
+		return "profile";
 	}
 }

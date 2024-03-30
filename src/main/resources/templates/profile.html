@@ -5,21 +5,19 @@
 		<title>Customer Profile Page</title>
 	</head>
 	<body>
-		<h1>User Profile:</h1>
+		<h1>Customer Profile:</h1>
 		<h2><span th:text="${customer.username}"></span></h2>
 		<div th:object="${customer}">
 			<ul>
 				<li th:text="*{username}"></li>
-				<li th:text="*{password}"></li>				
+				<li th:text="*{password}"></li>	
+				<li th:text="*{address}"></li>
+				<li th:text="*{firstName}"></li>
+				<li th:text="*{lastName}"></li>			
 			</ul>
 		</div>
-		<p>
-			<a th:href="@{/customers/(username=${customer.username})}">
-				Access <span th:text="${customer.username}"></span>'s profile by name
-			</a>
-		</p>
-		<p>
-			<a th:href="@{/}">Return to main page</a>
-		</p>
+		<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
+		<a href="/dashboard">Return to dashboard</a>
+		<a href="/logout">Logout</a>
 	</body>
 </html>
