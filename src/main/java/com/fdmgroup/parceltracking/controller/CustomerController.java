@@ -108,4 +108,6 @@ public class CustomerController {
 		customerService.update(tempCustomer);
 		return "profile";
 	}
+	
+	
 }

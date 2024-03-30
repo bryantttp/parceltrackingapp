@@ -10,12 +10,19 @@
 		<div th:object="${customer}">
 			<ul>
 				<li th:text="*{username}"></li>
-				<li th:text="*{password}"></li>	
 				<li th:text="*{address}"></li>
 				<li th:text="*{firstName}"></li>
-				<li th:text="*{lastName}"></li>			
+				<li th:text="*{lastName}"></li>		
 			</ul>
 		</div>
+		<div th:each="parcel : ${customer.parcels}">
+			<ul>
+				<li th:text="'Parcel ' + ${parcel.parcelId} "></li>
+				<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
+				<li th:text="'Parcel is' + ${parcel.status.statusName}"></li>
+			</ul>
+		</div>
+		
 		<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
 		<a href="/dashboard">Return to dashboard</a>
 		<a href="/logout">Logout</a>
