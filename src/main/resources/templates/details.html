@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Customer Details Page</title>
+	</head>
+	<body>
+		<form th:method="put" th:action="details" th:object="${customer}">
+			<input type="text" name="address" placeholder="Address">
+			<input type="text" name="firstName" placeholder="First Name">
+			<input type="text" name="lastName" placeholder="Last Name">
+			<input type="submit" value="Update">
+		</form>
+		<a href="/dashboard">Return to dashboard</a>
+		<a href="/logout">Logout</a>
+	</body>
+</html>

@@ -5,21 +5,30 @@
 		<title>Customer Profile Page</title>
 	</head>
 	<body>
-		<h1>User Profile:</h1>
+		<h1>Customer Profile:</h1>
 		<h2><span th:text="${customer.username}"></span></h2>
 		<div th:object="${customer}">
 			<ul>
 				<li th:text="*{username}"></li>
-				<li th:text="*{password}"></li>				
+				<li th:text="*{address}"></li>
+				<li th:text="*{firstName}"></li>
+				<li th:text="*{lastName}"></li>		
 			</ul>
 		</div>
-		<p>
-			<a th:href="@{/customers/(username=${customer.username})}">
-				Access <span th:text="${customer.username}"></span>'s profile by name
-			</a>
-		</p>
-		<p>
-			<a th:href="@{/}">Return to main page</a>
-		</p>
+		<div th:each="parcel : ${customer.parcels}">
+			<ul>
+				<li th:text="'Parcel ' + ${parcel.parcelId} "></li>
+				<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
+				<li th:text="'Parcel is ' + ${parcel.status.statusName}"></li>
+			</ul>
+			<form th:method="post" th:action="@{/customers/{id} (id=${customer.id})}" th:object="${parcel}">
+				<input type="hidden" name="parcelId" th:value="${parcel.parcelId}">
+				<input type="submit" th:value="'Parcel ' + ${parcel.parcelId} + ' received'">
+			</form>
+		</div>
+		
+		<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
+		<a href="/dashboard">Return to dashboard</a>
+		<a href="/logout">Logout</a>
 	</body>
 </html>
