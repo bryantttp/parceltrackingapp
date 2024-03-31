@@ -74,7 +74,7 @@ public class CustomerController {
 	
 	@GetMapping("/customers/{id}/collected")
 	public String collectedParcelPage(@PathVariable("id") long customerId) {
-		return "pracelcollected";
+		return "parcelcollected";
 	}
 	
 	@PostMapping("/register")
@@ -128,6 +128,6 @@ public class CustomerController {
 		customerService.update(tempCustomer);
 		parcelService.deleteById(tempParcel.getParcelId());
 		System.out.println("Parcel collection has been confirmed by Customer");
-		return "/customers/{id}/collected";
+		return "redirect:/customers/{id}/collected";
 	}
 }

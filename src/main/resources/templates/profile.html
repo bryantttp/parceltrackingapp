@@ -15,18 +15,17 @@
 				<li th:text="*{lastName}"></li>		
 			</ul>
 		</div>
-		<div th:each="parcel : ${customer.parcels}">
+		<div th:each="parcel : ${customer.parcels}" th:object="${customer}">
 			<ul>
 				<li th:text="'Parcel ' + ${parcel.parcelId} "></li>
 				<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
 				<li th:text="'Parcel is ' + ${parcel.status.statusName}"></li>
 			</ul>
-			<form th:method="post" th:action="@{/customers/{id} (id=${customer.id})}" th:object="${parcel}">
+			<form method="post">
 				<input type="hidden" name="parcelId" th:value="${parcel.parcelId}">
 				<input type="submit" th:value="'Parcel ' + ${parcel.parcelId} + ' received'">
 			</form>
 		</div>
-		
 		<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
 		<a href="/dashboard">Return to dashboard</a>
 		<a href="/logout">Logout</a>
