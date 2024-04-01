@@ -1,1 +1,5 @@
-javaEnterpriseSoloProject
+com.fdmgroup.parceltracking
+com.fdmgroup.parceltracking.controller
+com.fdmgroup.parceltracking.model
+com.fdmgroup.parceltracking.repository
+com.fdmgroup.parceltracking.service
