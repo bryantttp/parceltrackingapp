@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fdmgroup.parceltracking.model.Parcel;
 import com.fdmgroup.parceltracking.repository.ParcelRepository;
@@ -15,6 +14,10 @@ public class ParcelService {
 	@Autowired
 	private ParcelRepository parcelRepo;
 	
+	public ParcelService(ParcelRepository parcelRepo) {
+		this.parcelRepo = parcelRepo;
+	}
+
 	public void persist(Parcel parcel) {
 		Optional<Parcel> returnedParcel = parcelRepo.findById(parcel.getParcelId());
 		if(returnedParcel.isEmpty()) {

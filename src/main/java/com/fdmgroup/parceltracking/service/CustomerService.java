@@ -63,7 +63,7 @@ public class CustomerService {
 			System.out.println("Error! Could not find Customer's details!");
 		}
 		else {
-			returnedCustomer.ifPresent(Customer::getParcelDetails);
+			returnedCustomer.get().getParcelDetails();
 		}
 	}
 	

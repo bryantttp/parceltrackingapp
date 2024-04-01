@@ -15,6 +15,10 @@ public class LocationService {
 	@Autowired
 	private LocationRepository locationRepo;
 	
+	public LocationService(LocationRepository locationRepo) {
+		this.locationRepo = locationRepo;
+	}
+
 	public void persist(Location location) {
 		Optional<Location> returnedLocation = locationRepo.findById(location.getLocationId());
 		if(returnedLocation.isEmpty()) {

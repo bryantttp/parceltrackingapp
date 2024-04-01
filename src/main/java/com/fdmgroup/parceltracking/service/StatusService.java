@@ -14,6 +14,10 @@ public class StatusService {
 	@Autowired
 	private StatusRepository statusRepo;
 	
+	public StatusService(StatusRepository statusRepo) {
+		this.statusRepo = statusRepo;
+	}
+
 	public void persist(Status status) {
 		Optional<Status> returnedStatus = statusRepo.findById(status.getStatusId());
 		if(returnedStatus.isEmpty()) {
