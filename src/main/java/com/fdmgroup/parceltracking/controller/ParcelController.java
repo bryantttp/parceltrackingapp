@@ -1,5 +1,7 @@
 package com.fdmgroup.parceltracking.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ public class ParcelController {
 	
 	@Autowired
 	private StatusService statusService;
+	
+	private static Logger logger = LogManager.getLogger(ParcelController.class);
 	
 	@GetMapping("/dashboard/parcels")
 	public String parcelPage() {
@@ -66,7 +70,7 @@ public class ParcelController {
 		Parcel tempParcel = new Parcel(tempCustomer,tempLocation,tempStatus);
 		parcelService.persist(tempParcel);
 		model.addAttribute("tempParcel",tempParcel);
-		System.out.println("Parcel created and added to Customer");
+		logger.info("Parcel created and added to Customer");
 		return "parcelcreated";
 	}	
 	
@@ -78,7 +82,7 @@ public class ParcelController {
 		Parcel tempParcel = new Parcel(tempCustomer,tempLocation,tempStatus);
 		parcelService.persist(tempParcel);
 		model.addAttribute("tempParcel",tempParcel);
-		System.out.println("Parcel created and added to Customer");
+		logger.info("Parcel created and added to Customer");
 		return "parcelcreated";
 	}	
 	
@@ -90,7 +94,7 @@ public class ParcelController {
 		Parcel tempParcel = new Parcel(tempCustomer,tempLocation,tempStatus);
 		parcelService.persist(tempParcel);
 		model.addAttribute("tempParcel",tempParcel);
-		System.out.println("Parcel created and added to Customer");
+		logger.info("Parcel created and added to Customer");
 		return "parcelcreated";
 	}	
 	
@@ -102,7 +106,7 @@ public class ParcelController {
 		Parcel tempParcel = new Parcel(tempCustomer,tempLocation,tempStatus);
 		parcelService.persist(tempParcel);
 		model.addAttribute("tempParcel",tempParcel);
-		System.out.println("Parcel created and added to Customer");
+		logger.info("Parcel created and added to Customer");
 		return "parcelcreated";
 	}
 }

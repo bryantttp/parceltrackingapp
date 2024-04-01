@@ -2,6 +2,8 @@ package com.fdmgroup.parceltracking.service;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class StatusService {
 	@Autowired
 	private StatusRepository statusRepo;
 	
+	private static Logger logger = LogManager.getLogger(StatusService.class);
+	
 	public StatusService(StatusRepository statusRepo) {
 		this.statusRepo = statusRepo;
 	}
@@ -22,10 +26,10 @@ public class StatusService {
 		Optional<Status> returnedStatus = statusRepo.findById(status.getStatusId());
 		if(returnedStatus.isEmpty()) {
 			statusRepo.save(status);
-			System.out.println("Status successfully created");
+			logger.info("Status successfully created");
 		}
 		else {
-			System.out.println("Status already exists!");
+			logger.warn("Status already exists!");
 		}
 	}
 	
@@ -33,34 +37,33 @@ public class StatusService {
 		Optional<Status> returnedStatus = statusRepo.findById(status.getStatusId());
 		
 		if(returnedStatus.isEmpty()) {
-			System.out.println("Status does not exist in database!");
+			logger.warn("Status does not exist in database!");
 		}
 		else {
 			statusRepo.save(status);
-			System.out.println("Status successfully updated");
+			logger.info("Status successfully updated");
 		}
 	}
 	
 	public void deleteById(int id) {
 		Optional<Status> returnedStatus = statusRepo.findById(id);
-		
 		if(returnedStatus.isEmpty()) {
-			System.out.println("Status does not exist in database!");
+			logger.warn("Status does not exist in database!");
 		}
 		else {
 			statusRepo.deleteById(id);
-			System.out.println("Status deleted from Database");
+			logger.info("Status deleted from Database");
 		}
 	}
 	
 	public boolean statusInDatabase(String statusName) {
 		Optional<Status> returnedStatus = statusRepo.findByStatus(statusName);
 		if (returnedStatus.isEmpty()) {
-			System.out.println("Location does not exist in database");
+			logger.info("Status does not exist in database");
 			return false;
 		}
 		else {
-			System.out.println("Location exists in database");
+			logger.info("Status exists in database");
 			return true;
 		}
 	}
@@ -68,9 +71,11 @@ public class StatusService {
 	public Status findByStatus(String statusName) {
 		Optional<Status> returnedStatus = statusRepo.findByStatus(statusName);
 		if (returnedStatus.isEmpty()) {
+			logger.info("Status does not exist in database");
 			return null;
 		}
 		else {
+			logger.info("Status retrieved from Database");
 			return returnedStatus.get();
 		}
 	}

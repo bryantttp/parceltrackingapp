@@ -40,12 +40,10 @@ public class LocationController {
 	public String createLocation(@RequestParam("country") String country, @RequestParam("city") String city) {
 		Location location = new Location(country,city);
 		if (locationService.locationInDatabase(country,city)) {
-			System.out.println("Location exists");
 			return "locations";
 		}
 		else {
 			locationService.persist(location);
-			System.out.println("Location successfully added to Database");
 			return "redirect:/locations/success";
 		}
 	}
@@ -56,11 +54,9 @@ public class LocationController {
 		model.addAttribute("tempLocation", tempLocation);
 		if (locationService.locationInDatabase(country,city)) {
 			locationService.deleteById(tempLocation.getLocationId());
-			System.out.println("Location successfully deleted from Database");
 			return "redirect:/locations/delete/success";
 		}
 		else {
-			System.out.println("Location does not exist");
 			return "redirect:/locations/delete";
 		}
 	}

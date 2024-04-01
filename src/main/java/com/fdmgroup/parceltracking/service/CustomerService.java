@@ -3,6 +3,8 @@ package com.fdmgroup.parceltracking.service;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,30 +16,31 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepo;
 	
+	private static Logger logger = LogManager.getLogger(CustomerService.class);
+	
 	public CustomerService(CustomerRepository customerRepo) {
 		this.customerRepo = customerRepo;
 	}
 	
 	public void persist(Customer customer) {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(customer.getUsername());
-		
 		if(returnedCustomer.isEmpty()) {
 			customerRepo.save(customer);
-			System.out.println("Customer successfully registered");
+			logger.info("Customer successfully registered");
 		}
 		else {
-			System.out.println("Customer already exists!");
+			logger.warn("Customer already exists");
 		}
 	}
 	
 	public boolean usernameInDatabase(String username) {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(username);
 		if (returnedCustomer.isEmpty()) {
-			System.out.println("Username does not exist in database");
+			logger.info("Username does not exist in database");
 			return false;
 		}
 		else {
-			System.out.println("Username exists in database");
+			logger.info("Username exists in database");
 			return true;
 		}
 	}
@@ -45,13 +48,15 @@ public class CustomerService {
 	public boolean passwordChecker(String username, String password) {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(username);
 		if (returnedCustomer.isEmpty()) {
-			System.out.println("Username does not exist in database");
+			logger.warn("Username does not exist in database");
 			return false;
 		}
 		else if (returnedCustomer.get().getPassword().equals(password)) {
+			logger.info("Username and Password validated");
 			return true;
 		}
 		else {
+			logger.warn("Username and Password incorrect");
 			return false;
 		}
 	}
@@ -60,19 +65,22 @@ public class CustomerService {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(username);
 		
 		if(returnedCustomer.isEmpty()) {
-			System.out.println("Error! Could not find Customer's details!");
+			logger.warn("Could not find Customer's details");
 		}
 		else {
 			returnedCustomer.get().getParcelDetails();
+			logger.info("Returning customer's parcel details");
 		}
 	}
 	
 	public Customer findCustomerById(long customerId) {
 		Optional<Customer> returnedCustomer = customerRepo.findById(customerId);
 		if (returnedCustomer.isEmpty()) {
+			logger.warn("Could not find Customer in Database");
 			return null;
 		}
 		else {
+			logger.info("Returning customer's details");
 			return returnedCustomer.get();
 		}
 	}
@@ -80,9 +88,11 @@ public class CustomerService {
 	public Customer findCustomerByUsername(String username) {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(username);
 		if (returnedCustomer.isEmpty()) {
+			logger.warn("Could not find Customer in Database");
 			return null;
 		}
 		else {
+			logger.info("Returning customer's details");
 			return returnedCustomer.get();
 		}
 	}
@@ -91,11 +101,11 @@ public class CustomerService {
 		Optional<Customer> returnedCustomer = customerRepo.findByUsername(customer.getUsername());
 		
 		if(returnedCustomer.isEmpty()) {
-			System.out.println("Customer does not exist in database!");
+			logger.warn("Customer does not exist in database");
 		}
 		else {
 			customerRepo.save(customer);
-			System.out.println("Customer successfully updated");
+			logger.info("Customer successfully updated");
 		}
 	}
 	
@@ -103,11 +113,11 @@ public class CustomerService {
 		Optional<Customer> returnedCustomer = customerRepo.findById(id);
 		
 		if(returnedCustomer.isEmpty()) {
-			System.out.println("Customer does not exist in database!");
+			logger.warn("Customer does not exist in database");
 		}
 		else {
 			customerRepo.deleteById(id);
-			System.out.println("Customer deleted from Database");
+			logger.info("Customer deleted from Database");
 		}
 	}
 }

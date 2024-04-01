@@ -29,8 +29,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@NamedQueries({
-	@NamedQuery(name = "Customer.findByUsername", query = "select c from Customer c where c.username = :customerUsername") })
 @Table(name = "listOfCustomers")
 public class Customer{
 	@Id

@@ -40,12 +40,10 @@ public class StatusController {
 	public String createStatus(@RequestParam("status") String statusName) {
 		Status tempStatus = new Status(statusName);
 		if (statusService.statusInDatabase(statusName)) {
-			System.out.println("Status exists");
 			return "statuses";
 		}
 		else {
 			statusService.persist(tempStatus);
-			System.out.println("Status successfully added to Database");
 			return "redirect:/statuses/success";
 		}
 	}
@@ -56,11 +54,9 @@ public class StatusController {
 		model.addAttribute("tempLocation", tempStatus);
 		if (statusService.statusInDatabase(statusName)) {
 			statusService.deleteById(tempStatus.getStatusId());
-			System.out.println("Status successfully deleted from Database");
 			return "redirect:/statuses/delete/success";
 		}
 		else {
-			System.out.println("Status does not exist");
 			return "redirect:/statuses/delete";
 		}
 	}

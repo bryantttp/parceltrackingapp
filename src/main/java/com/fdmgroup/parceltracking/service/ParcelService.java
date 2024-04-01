@@ -2,6 +2,8 @@ package com.fdmgroup.parceltracking.service;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class ParcelService {
 	@Autowired
 	private ParcelRepository parcelRepo;
 	
+	private static Logger logger = LogManager.getLogger(ParcelService.class);
+	
 	public ParcelService(ParcelRepository parcelRepo) {
 		this.parcelRepo = parcelRepo;
 	}
@@ -22,22 +26,21 @@ public class ParcelService {
 		Optional<Parcel> returnedParcel = parcelRepo.findById(parcel.getParcelId());
 		if(returnedParcel.isEmpty()) {
 			parcelRepo.save(parcel);
-			System.out.println("Parcel successfully created");
+			logger.info("Parcel successfully created");
 		}
 		else {
-			System.out.println("Parcel already exists!");
+			logger.warn("Parcel already exists!");
 		}
 	}
 	
 	public void update(Parcel parcel) {
 		Optional<Parcel> returnedParcel = parcelRepo.findById(parcel.getParcelId());
-		
 		if(returnedParcel.isEmpty()) {
-			System.out.println("Parcel does not exist in database!");
+			logger.warn("Parcel does not exist in database!");
 		}
 		else {
 			parcelRepo.save(parcel);
-			System.out.println("Parcel successfully updated");
+			logger.info("Parcel successfully updated");
 		}
 	}
 	
@@ -45,11 +48,11 @@ public class ParcelService {
 		Optional<Parcel> returnedParcel = parcelRepo.findById(id);
 		
 		if(returnedParcel.isEmpty()) {
-			System.out.println("Parcel does not exist in database!");
+			logger.warn("Parcel does not exist in database!");
 		}
 		else {
 			parcelRepo.deleteById(id);
-			System.out.println("Parcel deleted from Database");
+			logger.info("Parcel deleted from Database");
 		}
 	}
 	
@@ -57,9 +60,11 @@ public class ParcelService {
 		Optional<Parcel> returnedParcel = parcelRepo.findById(id);
 	
 		if(returnedParcel.isEmpty()) {
+			logger.warn("Parcel retrieved from Database");
 			return null;
 		}
 		else {
+			logger.info("Parcel retrieved from Database");
 			return returnedParcel.get();
 		}
 	}

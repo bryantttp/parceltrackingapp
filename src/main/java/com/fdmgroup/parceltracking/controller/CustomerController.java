@@ -1,5 +1,7 @@
 package com.fdmgroup.parceltracking.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ public class CustomerController {
 	
 	@Autowired
 	private ParcelService parcelService;
+	
+	private static Logger logger = LogManager.getLogger(CustomerController.class);
 	
 	@GetMapping("/index")
 	public String welcomePage() {
@@ -53,7 +57,7 @@ public class CustomerController {
 	
 	@GetMapping("/logout")
 	public String logoutPage(HttpSession session) {
-		System.out.println("Customer has logged out.");
+		logger.info("Customer has logged out.");
 		session.invalidate();
 		return "redirect:/login";
 	}
@@ -68,7 +72,7 @@ public class CustomerController {
 	
 	@GetMapping("customers/{id}/details")
 	public String editProfilePage(@PathVariable("id") long customerId) {
-		System.out.println("Editing Customer's profile page");
+		logger.info("Editing Customer's profile page");
 		return "details";
 	}
 	
@@ -81,13 +85,10 @@ public class CustomerController {
 	public String processRegistration(@RequestParam("username") String username, @RequestParam("password") String password){
 		Customer customer = new Customer(null,username,password,null,null);
 		if(customerService.usernameInDatabase(username)) {
-			System.out.println("Customer exists");
 			return("register");
 		}
 		else {
 			customerService.persist(customer);
-			System.out.println("Username : " + username + " | Password : " + password);
-			System.out.println("Customer registration succeeded");
 			return("redirect:/login");
 		}
 	}
@@ -95,14 +96,14 @@ public class CustomerController {
 	@PostMapping("/login")
 	public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session, Model model) {
 		if(customerService.passwordChecker(username, password)) {
-			System.out.println("Authentication was successful!");
+			logger.info("Authentication was successful!");
             session.setAttribute("loggedUser", customerService.findCustomerByUsername(username));
             Customer returnedCustomer = customerService.findCustomerByUsername(username);
             model.addAttribute("customer",returnedCustomer);
 			return "redirect:/dashboard";
 		}
 		else {
-			System.out.println("Authentication failed!");
+			logger.warn("Authentication failed!");
 			return "login";
 		}
 	}
@@ -127,7 +128,7 @@ public class CustomerController {
 		model.addAttribute("tempParcel", tempParcel);
 		customerService.update(tempCustomer);
 		parcelService.deleteById(tempParcel.getParcelId());
-		System.out.println("Parcel collection has been confirmed by Customer");
+		logger.info("Parcel collection has been confirmed by Customer");
 		return "redirect:/customers/{id}/collected";
 	}
 }
