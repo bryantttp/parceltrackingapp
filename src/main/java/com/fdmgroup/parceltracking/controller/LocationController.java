@@ -12,20 +12,20 @@ import com.fdmgroup.parceltracking.service.LocationService;
 
 @Controller
 public class LocationController {
-	
+
 	@Autowired
 	private LocationService locationService;
-	
+
 	@GetMapping("/locations")
 	public String locationPage() {
 		return "locationcreation";
 	}
-	
+
 	@GetMapping("/locations/success")
 	public String locationCreationSuccessPage() {
 		return "locationcreationsuccess";
 	}
-	
+
 	@GetMapping("/locations/delete")
 	public String locationDeletionPage() {
 		return "locationdeletion";
@@ -35,29 +35,31 @@ public class LocationController {
 	public String locationDeletionSuccessPage() {
 		return "locationdeletionsuccess";
 	}
-	
+
 	@PostMapping("/locations")
-	public String createLocation(@RequestParam("country") String country, @RequestParam("city") String city) {
-		Location location = new Location(country,city);
-		if (locationService.locationInDatabase(country,city)) {
-			return "locations";
-		}
-		else {
+	public String createLocation(@RequestParam("country") String country, @RequestParam("city") String city,
+			Model model) {
+		Location location = new Location(country, city);
+		if (locationService.locationInDatabase(country, city) || country.equals("") || city.equals("")) {
+			model.addAttribute("error", true);
+			return "locationcreation";
+		} else {
 			locationService.persist(location);
-			return "redirect:/locations/success";
+			return "locationcreationsuccess";
 		}
 	}
-	
+
 	@PostMapping("/locations/delete")
-	public String deleteLocation(Model model,@RequestParam("country") String country, @RequestParam("city") String city) {
-		Location tempLocation = locationService.findByLocation(country,city);
+	public String deleteLocation(Model model, @RequestParam("country") String country,
+			@RequestParam("city") String city) {
+		Location tempLocation = locationService.findByLocation(country, city);
 		model.addAttribute("tempLocation", tempLocation);
-		if (locationService.locationInDatabase(country,city)) {
+		if (locationService.locationInDatabase(country, city)) {
 			locationService.deleteById(tempLocation.getLocationId());
-			return "redirect:/locations/delete/success";
-		}
-		else {
-			return "redirect:/locations/delete";
+			return "locationdeletionsuccess";
+		} else {
+			model.addAttribute("error", true);
+			return "locationdeletion";
 		}
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ParcelTrackingApplication {
-	
+
 	private static Logger logger = LogManager.getLogger(ParcelTrackingApplication.class);
 
 	public static void main(String[] args) {

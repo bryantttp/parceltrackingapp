@@ -7,6 +7,6 @@
 	<body>
 		<h1>Order has been collected by Customer</h1>
 		<p>The fees have been released to the vendor</p>
-		<a th:href="@{/dashboard}">Return to Dashboard</a>
+		<a th:href="@{/customers/{id}(id=${customer.id})}">Return to Profile Page</a>
 	</body>
 </html>

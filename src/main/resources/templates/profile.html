@@ -1,33 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
+		<link rel="stylesheet" href="/profile.css">
 		<meta charset="UTF-8">
 		<title>Customer Profile Page</title>
 	</head>
-	<body>
-		<h1>Customer Profile:</h1>
-		<h2><span th:text="${customer.username}"></span></h2>
-		<div th:object="${customer}">
-			<ul>
-				<li th:text="*{username}"></li>
-				<li th:text="*{address}"></li>
-				<li th:text="*{firstName}"></li>
-				<li th:text="*{lastName}"></li>		
-			</ul>
+	<body th:style="'background-image:url(' + @{${backgroundUrl}} + '); background-attachment: fixed; background-size: cover;'">
+		<h1 th:text="'Welcome ' + ${customer.username} + '!'"></h1>
+		<div class="customerProfile">
+			<div class="customerDetails">
+				<div class="profilePicture">
+					<img id="myImage" th:src="@{${profileUrl}}" />
+				</div>
+				<h2><span id="username" th:text="${customer.username}"></span></h2>
+				<div class="customerDetails" th:object="${customer}">
+					<div class="customerUsername" th:object="${customer}">
+						Username: <span th:text="*{username}"></span>
+					</div>
+					<div class="customerAddress" th:object="${customer}">
+						Address: <span th:text="*{address}"></span>
+					</div>	
+					<div class="customerFirstName" th:object="${customer}">
+						First Name: <span th:text="*{firstName}"></span>
+					</div>
+					<div class="customerLastName" th:object="${customer}">
+						Last Name: <span th:text="*{lastName}"></span>	
+					</div>
+				</div>	
+			</div>	
+			<div class="parcelDetails" th:each="parcel : ${customer.parcels}" th:object="${customer}">
+				<div class="parcelLiveDetails">
+					<img th:src="${parcel.pictureURL}"/>
+					<ul>
+						<li th:text="${parcel.name}"></li>
+						<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
+						<li th:text="'Parcel is ' + ${parcel.status.statusName}"></li>
+						<li th:text="'Parcel will deliver to ' + ${parcel.shippingAddress}"></li>
+						<li th:text="'Parcel was paid using Credit Card ending with *' + ${parcel.creditCardNumber}"></li>
+					</ul>
+				</div>	
+				<div class="parcelCollected">
+					<form method="post">
+						<input type="hidden" name="parcelId" th:value="${parcel.parcelId}">
+						<input id="parcelCollectedButton" type="submit" th:value="${parcel.name} + ' received'" onclick="successfulCollection()">
+					</form>
+				</div>
+				<div class="editAddress">
+					<a id="editAddress"th:href="@{/customers/{id}/parcel{parcelId}details(id=${customer.id}, parcelId=${parcel.parcelId})}">Edit Shipping Address</a>
+				</div>
+			</div>
+		</div>	
+		<div class="link">
+			<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
+			<a th:href="@{/customers/{id}/profilepicture(id=${customer.id})}">Edit Profile Picture</a>
+			<a th:href="@{/customers/{id}/backgroundpicture(id=${customer.id})}">Edit Background Picture</a>
+			<a href="/dashboard">Return to dashboard</a>
+			<a href="/logout">Logout</a>
 		</div>
-		<div th:each="parcel : ${customer.parcels}" th:object="${customer}">
-			<ul>
-				<li th:text="'Parcel ' + ${parcel.parcelId} "></li>
-				<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
-				<li th:text="'Parcel is ' + ${parcel.status.statusName}"></li>
-			</ul>
-			<form method="post">
-				<input type="hidden" name="parcelId" th:value="${parcel.parcelId}">
-				<input type="submit" th:value="'Parcel ' + ${parcel.parcelId} + ' received'">
-			</form>
-		</div>
-		<a th:href="@{/customers/{id}/details(id=${customer.id})}">Edit Profile Details</a>
-		<a href="/dashboard">Return to dashboard</a>
-		<a href="/logout">Logout</a>
+		<script>
+		function successfulCollection(){
+			alert("Order has been collected by Customer\nThe fees have been released to the vendor");
+		}
+		function showCreditCard(creditCard){
+			return 
+		}
+		</script>
 	</body>
 </html>

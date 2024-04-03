@@ -12,53 +12,51 @@ import com.fdmgroup.parceltracking.service.StatusService;
 
 @Controller
 public class StatusController {
-	
+
 	@Autowired
 	private StatusService statusService;
-	
+
 	@GetMapping("/statuses")
 	public String statusPage() {
 		return "statuscreation";
 	}
-	
+
 	@GetMapping("/statuses/success")
 	public String statusCreationSuccessPage() {
 		return "statuscreationsuccess";
 	}
-	
+
 	@GetMapping("/statuses/delete")
 	public String statusDeletionPage() {
 		return "statusdeletion";
 	}
-	
+
 	@GetMapping("/statuses/delete/success")
 	public String statusDeletionSuccessPage() {
 		return "statusdeletionsuccess";
 	}
-	
+
 	@PostMapping("/statuses")
 	public String createStatus(@RequestParam("status") String statusName) {
 		Status tempStatus = new Status(statusName);
 		if (statusService.statusInDatabase(statusName)) {
 			return "statuses";
-		}
-		else {
+		} else {
 			statusService.persist(tempStatus);
-			return "redirect:/statuses/success";
+			return "statuscreationsuccess";
 		}
 	}
-	
+
 	@PostMapping("/statuses/delete")
-	public String deleteLocation(Model model,@RequestParam("statusName") String statusName) {
+	public String deleteLocation(Model model, @RequestParam("statusName") String statusName) {
 		Status tempStatus = statusService.findByStatus(statusName);
 		model.addAttribute("tempLocation", tempStatus);
 		if (statusService.statusInDatabase(statusName)) {
 			statusService.deleteById(tempStatus.getStatusId());
-			return "redirect:/statuses/delete/success";
-		}
-		else {
-			return "redirect:/statuses/delete";
+			return "statusdeletionsuccess";
+		} else {
+			return "statusdeletion";
 		}
 	}
-	
-}	
+
+}
