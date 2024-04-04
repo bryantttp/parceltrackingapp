@@ -33,8 +33,8 @@
 					<img th:src="${parcel.pictureURL}"/>
 					<ul>
 						<li th:text="${parcel.name}"></li>
-						<li th:text="'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city}"></li>
-						<li th:text="'Parcel is ' + ${parcel.status.statusName}"></li>
+						<li th:text="${parcel.location} != null ? 'Currently in ' + ${parcel.location.country} + ', ' + ${parcel.location.city} : 'Currently in '"></li>
+						<li th:text="${parcel.status} == null ? 'Parcel is ' : 'Parcel is ' + ${parcel.status.statusName}"></li>
 						<li th:text="'Parcel will deliver to ' + ${parcel.shippingAddress}"></li>
 						<li th:text="'Parcel was paid using Credit Card ending with *' + ${parcel.creditCardNumber}"></li>
 					</ul>
@@ -60,9 +60,6 @@
 		<script>
 		function successfulCollection(){
 			alert("Order has been collected by Customer\nThe fees have been released to the vendor");
-		}
-		function showCreditCard(creditCard){
-			return 
 		}
 		</script>
 	</body>

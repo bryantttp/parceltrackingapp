@@ -8,13 +8,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fdmgroup.parceltracking.model.Location;
+import com.fdmgroup.parceltracking.model.Parcel;
 import com.fdmgroup.parceltracking.service.LocationService;
+import com.fdmgroup.parceltracking.service.ParcelService;
 
 @Controller
 public class LocationController {
 
 	@Autowired
 	private LocationService locationService;
+
+	@Autowired
+	private ParcelService parcelService;
 
 	@GetMapping("/locations")
 	public String locationPage() {
@@ -55,6 +60,10 @@ public class LocationController {
 		Location tempLocation = locationService.findByLocation(country, city);
 		model.addAttribute("tempLocation", tempLocation);
 		if (locationService.locationInDatabase(country, city)) {
+			for (Parcel p : locationService.findByLocation(country, city).getParcels()) {
+				p.setLocation(null);
+				parcelService.update(p);
+			}
 			locationService.deleteById(tempLocation.getLocationId());
 			return "locationdeletionsuccess";
 		} else {

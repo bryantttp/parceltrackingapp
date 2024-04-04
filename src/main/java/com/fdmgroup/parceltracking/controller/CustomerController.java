@@ -86,8 +86,10 @@ public class CustomerController {
 
 	@GetMapping("/customers/{id}/parcel{parcelId}details")
 	public String parcelDetailsPage(@PathVariable("id") long customerId, @PathVariable("parcelId") long parcelId,
-			HttpSession session) {
+			HttpSession session, Model model) {
 		session.setAttribute("parcel", parcelService.findById(parcelId));
+		Customer returnedCustomer = (Customer) session.getAttribute("loggedUser");
+		model.addAttribute("customer", returnedCustomer);
 		logger.info("Parcel added to Session");
 		return "parceldetails";
 	}
@@ -123,7 +125,8 @@ public class CustomerController {
 				"/homePageBackground.jpg");
 		if (customerService.usernameInDatabase(username) || username.equals("") || password.equals("")) {
 			model.addAttribute("error", true);
-			return ("redirect:/register");
+			logger.warn("Invalid username or password to register");
+			return ("register");
 		} else {
 			customerService.persist(customer);
 			return ("redirect:/login");
@@ -153,9 +156,15 @@ public class CustomerController {
 			@RequestParam(name = "firstName", required = false) String firstName,
 			@RequestParam(name = "lastName", required = false) String lastName, HttpSession session, Model model) {
 		Customer tempCustomer = customerService.findCustomerById(customerId);
-		tempCustomer.setAddress(address);
-		tempCustomer.setFirstName(firstName);
-		tempCustomer.setLastName(lastName);
+		if (!address.isEmpty()) {
+			tempCustomer.setAddress(address);
+		}
+		if (!firstName.isEmpty()) {
+			tempCustomer.setFirstName(firstName);
+		}
+		if (!lastName.isEmpty()) {
+			tempCustomer.setLastName(lastName);
+		}
 		session.setAttribute("loggedUser", tempCustomer);
 		model.addAttribute("customer", tempCustomer);
 		customerService.update(tempCustomer);
